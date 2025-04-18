@@ -1,7 +1,7 @@
 package model;
 
 public class Tarefa {
-    private int proximoId = 1;
+    private static int proximoId = 1;
     private int id;
     private int nivelDePrioridade;
     private String titulo;

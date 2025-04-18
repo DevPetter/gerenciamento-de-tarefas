@@ -18,53 +18,64 @@ public class ListaDeTarefasController {
     }
 
     public void adicionarTarefa(Tarefa tarefa) {
-        try {
-            if (listaDeTarefas.getListaDeTarefas().isEmpty()) {
-                throw new ListaVaziaExcpetion();
-            } else {
-                listaDeTarefas.getListaDeTarefas().add(tarefa);
-                System.out.println("Tarefa #" + tarefa.getId() + " adicionada com sucesso!");
-                System.out.println();
-            }
-        } catch (ListaVaziaExcpetion e) {
-            System.out.println(e.getMessage());
-        }
+        listaDeTarefas.getListaDeTarefas().add(tarefa);
+        System.out.println();
+        System.out.println("Tarefa #" + tarefa.getId() + " adicionada com sucesso!");
+        System.out.println();
     }
 
-    public void removerTarefaPorId(int id, Scanner sc, ListaDeTarefasController controller) {
+    public void removerTarefaPorId(Scanner sc) {
         try {
             if (listaDeTarefas.getListaDeTarefas().isEmpty()) {
                 throw new ListaVaziaExcpetion();
             } else {
-                System.out.print("Tem certeza que deseja excluir essa tarefa?: ");
-                String confirmacaoRemover = sc.nextLine();
+                System.out.println();
+                System.out.println("======================= REMOVER TAREFA =========================");
+
+                System.out.print("Digite o ID da tarefa que deseja excluir: ");
+                int idRemovido = sc.nextInt();
+
+                sc.nextLine();
+
+                Tarefa tarefaParaExcluir = null;
+
+                for (Tarefa tarefa : listaDeTarefas.getListaDeTarefas()) {
+                    if (tarefa.getId() == idRemovido) {
+                        tarefaParaExcluir = tarefa;
+                        break;
+                    }
+                }
 
                 try {
-                    if (confirmacaoRemover.equalsIgnoreCase("n")) {
-                        boolean removida = listaDeTarefas.getListaDeTarefas().removeIf(tarefa -> id == tarefa.getId());
-
-                        try {
-                            if (removida) {
-                                System.out.println("Tarefa #" + id + " removida com sucesso!");
-                            } else {
-                                throw new TarefaNaoEncontradaExcpetion();
-                            }
-                        } catch (TarefaNaoEncontradaExcpetion e) {
-                            System.out.println(e.getMessage());
-                        }
-
-                    } else if (confirmacaoRemover.equalsIgnoreCase("n")) {
-                        return;
-                    } else {
-                        throw new OpcaoInvalidaExcpetion();
+                    if (tarefaParaExcluir == null) {
+                        throw new TarefaNaoEncontradaExcpetion();
                     }
-                } catch (OpcaoInvalidaExcpetion e) {
+                } catch (TarefaNaoEncontradaExcpetion e) {
                     System.out.println(e.getMessage());
                 }
 
+                System.out.println();
+
+                System.out.print("Tem certeza que deseja excluir essa tarefa? (S/N): ");
+                String confirmacaoRemover = sc.nextLine();
+
+
+                if (confirmacaoRemover.equalsIgnoreCase("S")) {
+                    listaDeTarefas.getListaDeTarefas().remove(tarefaParaExcluir);
+                    System.out.println();
+                    System.out.println("Tarefa #" + idRemovido + " removida com sucesso!");
+                    System.out.println();
+                } else {
+                    System.out.println();
+                    System.out.println("Operação cancelada.");
+                    System.out.println();
+                    return;
+                }
             }
         } catch (ListaVaziaExcpetion e) {
+            System.out.println();
             System.out.println(e.getMessage());
+            System.out.println();
         }
     }
 }
