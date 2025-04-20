@@ -90,23 +90,19 @@ public class ListaDeTarefasController {
                 System.out.print("Digite o ID da tarefa que deseja concluir: ");
                 int idConcluido = sc.nextInt();
 
-                sc.nextLine();
-
                 try {
                     for (Tarefa tarefa : listaDeTarefas.getListaDeTarefas()) {
-                        try {
-                            if (tarefa.getId() == idConcluido && tarefa.getConcluido()) {
-                                throw new TarefaConcluidaException();
-                            } else if (tarefa.getId() == idConcluido && !tarefa.getConcluido()) {
-                                tarefa.setConcluido(true);
-                                System.out.println();
-                                System.out.println("Tarefa #" + tarefa.getId() + " concluida com sucesso!");
-                                System.out.println();
-                            } else {
-                                throw new TarefaNaoEncontradaExcpetion();
-                            }
-                        } catch (TarefaNaoEncontradaExcpetion e) {
-                            System.out.println(e.getMessage());
+                        if (tarefa.getId() == idConcluido && tarefa.getConcluido()) {
+                            throw new TarefaConcluidaException();
+                        } else if (tarefa.getId() == idConcluido && !tarefa.getConcluido()) {
+                            tarefa.setConcluido(true);
+                            System.out.println();
+                            System.out.println("Tarefa #" + tarefa.getId() + " concluida com sucesso!");
+                            System.out.println();
+                        } else{
+                            System.out.println();
+                            System.out.println("[ERRO] - Tarefa não encontrada.");
+                            System.out.println();
                         }
                     }
                 } catch (TarefaConcluidaException e) {
@@ -114,7 +110,66 @@ public class ListaDeTarefasController {
                     System.out.println(e.getMessage());
                     System.out.println();
                 }
+            }
+        } catch (ListaVaziaExcpetion e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
 
+    public void listarTarefasConcluidas() {
+        try {
+            if (listaDeTarefas.getListaDeTarefas().isEmpty()) {
+                throw new ListaVaziaExcpetion();
+            } else {
+                int totalConcluidas = 0;
+
+                for (Tarefa tarefa : listaDeTarefas.getListaDeTarefas()) {
+                    if (tarefa.getConcluido()) {
+                        tarefa.exibirTarefa();
+                        totalConcluidas++;
+                    }
+                }
+
+                if (totalConcluidas == 0) {
+                    System.out.println();
+                    System.out.println("[ERRO] - Ainda não há tarefas concluidas.");
+                    System.out.println();
+                } else {
+                    System.out.println("Total de tarefas concluidas: " + totalConcluidas);
+                    System.out.println();
+                }
+            }
+        } catch (ListaVaziaExcpetion e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
+
+    public void listarTarefasNaoConcluidas() {
+        try {
+            if (listaDeTarefas.getListaDeTarefas().isEmpty()) {
+                throw new ListaVaziaExcpetion();
+            } else {
+                int totalNaoConcluidas = 0;
+
+                for (Tarefa tarefa : listaDeTarefas.getListaDeTarefas()) {
+                    if (!tarefa.getConcluido()) {
+                        tarefa.exibirTarefa();
+                        totalNaoConcluidas++;
+                    }
+                }
+
+                if (totalNaoConcluidas == 0) {
+                    System.out.println();
+                    System.out.println("[ERRO] - Todas as tarefas já foram concluidas.");
+                    System.out.println();
+                } else {
+                    System.out.println("Total de tarefas não concluidas: " + totalNaoConcluidas);
+                    System.out.println();
+                }
             }
         } catch (ListaVaziaExcpetion e) {
             System.out.println();

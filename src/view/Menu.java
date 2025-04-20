@@ -39,6 +39,12 @@ public class Menu {
                     case 3:
                         controller.concluirTarefa(sc);
                         break;
+                    case 4:
+                        controller.listarTarefasConcluidas();
+                        break;
+                    case 5:
+                        controller.listarTarefasNaoConcluidas();
+                        break;
                     default:
                         throw new OpcaoInvalidaExcpetion();
                 }

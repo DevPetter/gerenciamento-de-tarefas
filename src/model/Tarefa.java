@@ -41,6 +41,7 @@ public class Tarefa {
     }
 
     public void exibirTarefa(){
+        System.out.println();
         System.out.println("==================== TAREFA #" + getId() + " ====================");
         System.out.println("Titulo: " + getTitulo());
         System.out.println("Descrição: " + getDescricao());
@@ -50,7 +51,7 @@ public class Tarefa {
         }else{
             System.out.println("Concluido: Não");
         }
-        System.out.println("=================================================================");
+        System.out.println("==================================================");
         System.out.println();
     }
 }
