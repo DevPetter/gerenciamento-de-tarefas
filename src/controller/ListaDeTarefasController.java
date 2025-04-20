@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.ListaVaziaExcpetion;
 import exceptions.OpcaoInvalidaExcpetion;
+import exceptions.TarefaConcluidaException;
 import exceptions.TarefaNaoEncontradaExcpetion;
 import model.ListaDeTarefas;
 import model.Tarefa;
@@ -78,4 +79,49 @@ public class ListaDeTarefasController {
             System.out.println();
         }
     }
+
+    public void concluirTarefa(Scanner sc) {
+        try {
+            if (listaDeTarefas.getListaDeTarefas().isEmpty()) {
+                throw new ListaVaziaExcpetion();
+            } else {
+                System.out.println();
+                System.out.println("======================= CONCLUIR TAREFA ========================");
+                System.out.print("Digite o ID da tarefa que deseja concluir: ");
+                int idConcluido = sc.nextInt();
+
+                sc.nextLine();
+
+                try {
+                    for (Tarefa tarefa : listaDeTarefas.getListaDeTarefas()) {
+                        try {
+                            if (tarefa.getId() == idConcluido && tarefa.getConcluido()) {
+                                throw new TarefaConcluidaException();
+                            } else if (tarefa.getId() == idConcluido && !tarefa.getConcluido()) {
+                                tarefa.setConcluido(true);
+                                System.out.println();
+                                System.out.println("Tarefa #" + tarefa.getId() + " concluida com sucesso!");
+                                System.out.println();
+                            } else {
+                                throw new TarefaNaoEncontradaExcpetion();
+                            }
+                        } catch (TarefaNaoEncontradaExcpetion e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                } catch (TarefaConcluidaException e) {
+                    System.out.println();
+                    System.out.println(e.getMessage());
+                    System.out.println();
+                }
+
+            }
+        } catch (ListaVaziaExcpetion e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
+
+
 }

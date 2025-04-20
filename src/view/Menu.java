@@ -1,6 +1,7 @@
 package view;
 
 import controller.ListaDeTarefasController;
+import exceptions.ListaVaziaExcpetion;
 import exceptions.OpcaoInvalidaExcpetion;
 import model.Tarefa;
 
@@ -25,11 +26,18 @@ public class Menu {
                 sc.nextLine();
 
                 switch (opcao) {
+                    case 0:
+                        System.out.println();
+                        System.out.println("Saindo...");
+                        System.exit(0);
                     case 1:
                         criarTarefa();
                         break;
                     case 2:
                         controller.removerTarefaPorId(sc);
+                        break;
+                    case 3:
+                        controller.concluirTarefa(sc);
                         break;
                     default:
                         throw new OpcaoInvalidaExcpetion();
